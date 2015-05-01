@@ -344,8 +344,57 @@ button.bright:hover
 	transition: top 0.85s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.modal .details {
+	text-align: center;
+	margin-bottom: 10px;
+
+}
+
+.modal .price {
+	text-align: left;
+	font-family: "Lato", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	background: #fff;
+	font-size: 28px;
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
 .show .card {
 	top: 18%;
+}
+
+.modal .fill {
+	background: #f1f0ec;
+}
+
+.modal hr.thin {
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+}
+
+.modal .stage {
+	display: none;
+}
+
+.modal.paying .paying,
+.modal.ordering .ordering,
+.modal.success .success,
+.modal.failed .failed {
+	display: block;
+}
+button.mfp-close {
+	opacity: 0.2;
+}
+
+.white-popup-block {
+    background: #f1f0ec;
+    padding: 0px 30px 20px 30px;
+    text-align: left;
+    max-width: 400px;
+    margin: 40px auto;
+    position: relative;
 }
 
 @media (max-width: 400px) {
