@@ -425,6 +425,7 @@ input.bright:visited {
 }
 
 .modal.requesting .requesting,
+.modal.suggesting .suggesting,
 .modal.paying .paying,
 .modal.ordering .ordering,
 .modal.success .success,
