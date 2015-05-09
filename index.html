@@ -459,11 +459,11 @@ Pro tip: Get your friends to cut the cards out.</p>
 		</div>
 		<div class="row">
 			<label for="source">Your Prompt Suggestion</label>
-			<input class="u-full-width" type="text" name="prompt" placeholder="A prompt, e.g. Dialogue in an action movie">
+			<input class="u-full-width prompt" type="text" name="prompt" placeholder="A prompt, e.g. Dialogue in an action movie">
 			<p class="subtitle">Do Better Games does not claim ownership of the content. However, by submitting this content, you agree to grant Do Better Games a worldwide, royalty-free and non-exclusive license to use, distribute, reproduce and modify the content. See the <a href="/license">full license</a>.</p>
 		</div>
 		<div class="row">
-			<button class="bright">submit prompt</button>
+			<button class="bright submit">submit prompt</button>
 		</div>
 	</div>
 	<div class="stage success">
@@ -480,10 +480,10 @@ Pro tip: Get your friends to cut the cards out.</p>
 		</div>
 		<div class="row">
 			<div class="four columns">
-				<button class="u-full-width cancel">cancel</button>
+				<button class="u-full-width done">done</button>
 			</div>
 			<div class="eight columns">
-				<button class="pay bright u-full-width">try again</button>
+				<button class="bright u-full-width back">submit another</button>
 			</div>
 		</div>
 	</div>
@@ -531,7 +531,7 @@ var handler = StripeCheckout.configure({
 	token: function(token) {
 		// Use the token to create the charge with a server-side script.
 		// You can access the token ID with `token.id`
-		var endpoint = "https://byob-store.appspot.com/charge";
+		var endpoint = "https://byob-site.appspot.com/charge";
 
 		// get the current order
 		var order = update();
@@ -584,17 +584,13 @@ var handler = StripeCheckout.configure({
 		var name = "Bring Your Own Book";
 		var description = "Preorder";
 
-
-
 		handler.open({
 			name: name,
 			description: description,
 			amount: order.total * 100,
-			//shippingAddress: true,
+			shippingAddress: true,
 			closed : function() {
 				$('.buy').text("buy now");
-
-
 				console.log("closed!");
 			}
 		});
@@ -607,6 +603,21 @@ var handler = StripeCheckout.configure({
 	$(window).on('popstate', function() {
 		handler.close();
 	});
+
+$("#suggestion .submit").on("click", function(e) {
+	// get data
+	// make ajax call
+	// set it back to "submit"
+	var content = $("#suggestion input.prompt").val();
+	$(this).text("submitting...");
+	$.post("https://byob-site.appspot.com/suggest",
+		{content: content},
+		function(data) {
+			// switch over to the thank you screen?
+			$(this).text("we got it, thanks!");
+			window.setTimeout(function() { $(this).text("submit prompt"); }, 2000);
+		});
+});
 
 </script>
 <script src="js/magnific.min.js"></script>
