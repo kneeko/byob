@@ -460,10 +460,10 @@ Pro tip: Get your friends to cut the cards out.</p>
 		<div class="row">
 			<label for="source">Your Prompt Suggestion</label>
 			<input class="u-full-width prompt" type="text" name="prompt" placeholder="A prompt, e.g. Dialogue in an action movie">
-			<p class="subtitle">Do Better Games does not claim ownership of the content. However, by submitting this content, you agree to grant Do Better Games a worldwide, royalty-free and non-exclusive license to use, distribute, reproduce and modify the content. See the <a href="/license">full license</a>.</p>
+			<p class="subtitle">Do Better Games does not claim ownership of the content. However, by submitting this content, you agree to grant Do Better Games a worldwide, royalty-free and non-exclusive license to use, distribute, reproduce and modify the content.</p>
 		</div>
 		<div class="row">
-			<button class="bright submit">submit prompt</button>
+			<button type="submit" class="bright submit">submit prompt</button>
 		</div>
 	</div>
 	<div class="stage success">
@@ -569,54 +569,56 @@ var handler = StripeCheckout.configure({
 });
 	
 
-	$('.buy').on('click', function(e) {
+$('.buy').on('click', function(e) {
 
-		// Open Checkout with further options
-		// we should set this amount depending
-		// on what the form has set up
+	// Open Checkout with further options
+	// we should set this amount depending
+	// on what the form has set up
 
-		var order = update();
+	var order = update();
+	var button = $(this);
 
-		var button = $(this);
+	// change to spinner
+	button.text("loading...");
+	var name = "Bring Your Own Book";
+	var description = "Preorder";
 
-		// change to spinner
-		button.text("loading...");
-		var name = "Bring Your Own Book";
-		var description = "Preorder";
-
-		handler.open({
-			name: name,
-			description: description,
-			amount: order.total * 100,
-			shippingAddress: true,
-			closed : function() {
-				$('.buy').text("buy now");
-				console.log("closed!");
-			}
-		});
-
-		e.preventDefault();
-
+	handler.open({
+		name: name,
+		description: description,
+		amount: order.total * 100,
+		shippingAddress: true,
+		closed : function() {
+			$('.buy').text("buy now");
+			console.log("closed!");
+		}
 	});
 
-	// Close Checkout on page navigation
-	$(window).on('popstate', function() {
-		handler.close();
-	});
+	e.preventDefault();
+
+});
+
+// Close Checkout on page navigation
+$(window).on('popstate', function() {
+	handler.close();
+});
 
 $("#suggestion .submit").on("click", function(e) {
-	// get data
-	// make ajax call
-	// set it back to "submit"
 	var content = $("#suggestion input.prompt").val();
-	$(this).text("submitting...");
-	$.post("https://byob-site.appspot.com/suggest",
-		{content: content},
-		function(data) {
-			// switch over to the thank you screen?
-			$(this).text("we got it, thanks!");
-			window.setTimeout(function() { $(this).text("submit prompt"); }, 2000);
-		});
+	// if content is empty then write out an error
+	var button = $(this);
+	button.text("submitting...");
+	$.ajax({
+		type: "POST",
+		url: "https://byob-site.appspot.com/suggest",
+		data: {content: content},
+		success: function(response) {
+			console.log(response);
+			button.text("submit prompt");
+			// clear the text field
+			// say thanks
+		},
+	});
 });
 
 </script>
