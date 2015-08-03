@@ -218,9 +218,13 @@ input.bright:visited {
 }
 
 .preorder-now {
-	background: #F3F3EF;
+	background: #fff;
 	padding: 30px 0;
-	border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 2px solid rgba(0, 0, 0, 0.175);
+}
+
+.preorder-now img {
+	border: none;
 }
 
 
